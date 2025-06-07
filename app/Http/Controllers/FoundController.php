@@ -25,5 +25,4 @@ class FoundController extends Controller
         }
         return view('found.index', compact('founds'));
     }
-
 }

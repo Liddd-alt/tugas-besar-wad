@@ -16,15 +16,15 @@ class MatchingController extends Controller
         return view('matching.index', compact('matchings'));
     }
 
-public function create()
-{
-    $lostItems = Lost::whereDoesntHave('matching', function($query) {
+    public function create()
+    {
+        $lostItems = Lost::whereDoesntHave('matching', function($query) {
             $query->where('status', 'cocok');
-    })->get();
+        })->get();
 
-    $foundItems = Found::whereDoesntHave('matching', function($query) {
+        $foundItems = Found::whereDoesntHave('matching', function($query) {
             $query->where('status', 'cocok');
-    })->get();
+        })->get();
 
     return view('matching.create', compact('lostItems', 'foundItems'));
 }
@@ -36,6 +36,7 @@ Public function  store(Request $request)
         'found_id' => 'required|exists:found,id',
     ]);
 
+    // Check if either item is already matchedki
     $existingMatch = Matching::where(function($query) use ($validated) {
         $query->where('lost_id', $validated['lost_id'])
             ->orWhere('found_id', $validated['found_id']);
@@ -52,3 +53,37 @@ Public function  store(Request $request)
 
     return redirect()->route('matching.index')->with('success', 'Pencocokan berhasil dibuat.');
 }
+
+Public function show($id)
+{
+    $matching = Matching::with(['lostItem', 'foundItem', 'admin'])->findOrFail($id);
+    return view('matching.show', compact('matching'));
+}
+
+Public function updateStatus(Request $request, $id)
+{
+    $matching = Matching::findOrFail($id);
+
+    $validated = $request->validate([
+        'status' => 'required|in:pending,cocok,tida cocok',
+        'user_confirmation' => 'required|boolean'
+    ]);
+
+    // If user confirms the match
+if ($validated['user_confirmation']) {
+    $matching->update([
+        'status' => $validated['status']
+    ]);
+
+    // If status is 'cocok', mark both items as matched
+    if ($validated['status'] === 'cocok') {
+        $matching->lostItem->update(['status' => 'matched']);
+        $matching->foundItem->update(['status' => 'matched']);
+    }
+
+    return redirect()->route('matching.show', $matching->id)
+                ->with('success', 'Status pencocokan berhasil diperbarui');
+}
+
+
+    

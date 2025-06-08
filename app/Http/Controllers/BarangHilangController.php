@@ -28,3 +28,27 @@ class LostController extends Controller
         $categories = Category::all();
         return view('lost.create', compact('categories'));
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'location' => 'required|string|max:255',
+            'category_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('image', $imageName);
+            $validated['image'] = $imageName;
+        }
+
+        $validated['user_id'] = Auth::id();
+
+        $lost = Lost::create($validated);
+
+        return redirect()->route('lost.index')->with('success', 'Data berhasil ditambahkan');
+    }

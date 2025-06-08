@@ -65,3 +65,15 @@ class LostController extends Controller
         $categories = Category::all();
         return view('lost.update', compact('lost', 'categories'));
     }
+
+     public function update(Request $request, $id)
+    {
+        $lost = Lost::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'location' => 'required|string|max:255',
+            'category_id' => 'required|exists:category,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);

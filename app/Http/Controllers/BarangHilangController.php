@@ -52,3 +52,16 @@ class LostController extends Controller
 
         return redirect()->route('lost.index')->with('success', 'Data berhasil ditambahkan');
     }
+
+    public function show($id)
+    {
+        $lost = Lost::with(['category', 'user'])->findOrFail($id);
+        return view('lost.show', compact('lost'));
+    }
+
+    public function edit($id)
+    {
+        $lost = Lost::findOrFail($id);
+        $categories = Category::all();
+        return view('lost.update', compact('lost', 'categories'));
+    }

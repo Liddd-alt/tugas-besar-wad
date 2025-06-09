@@ -94,3 +94,18 @@ class LostController extends Controller
 
         return redirect()->route('lost.index')->with('success', 'Data berhasil diupdate');
     }
+
+    public function destroy($id)
+    {
+        $lost = Lost::findOrFail($id);
+
+        // Delete image if exists
+        if ($lost->image) {
+            Storage::delete('image/' . $lost->image);
+        }
+
+        $lost->delete();
+
+        return redirect()->route('lost.index')->with('success', 'Data berhasil dihapus');
+    }
+}

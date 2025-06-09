@@ -77,3 +77,20 @@ class LostController extends Controller
             'category_id' => 'required|exists:category,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($lost->image) {
+                Storage::delete('image/' . $lost->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('image', $imageName);
+            $validated['image'] = $imageName;
+        }
+
+        $lost->update($validated);
+
+        return redirect()->route('lost.index')->with('success', 'Data berhasil diupdate');
+    }

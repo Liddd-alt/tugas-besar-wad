@@ -9,18 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up()
+{
+    if (!Schema::hasTable('matching')) {
         Schema::create('matching', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lost_id')->constrained('lost')->onDelete('cascade');
-            $table->foreignId('found_id')->constrained('found')->onDelete('cascade');
-            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('lost_id');
+            $table->unsignedBigInteger('found_id');
+            $table->unsignedBigInteger('admin_id');
             $table->enum('status', ['pending', 'cocok', 'tidak cocok'])->default('pending');
             $table->timestamps();
         });
     }
-
+}
     /**
      * Reverse the migrations.
      */

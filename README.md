@@ -1,3 +1,46 @@
+//  Identitas Kelompok: Nama lengkap, NIM, dan peran masing-masing anggota.
+- MUHAMMAD KHALID AL-FAHIDI – 102022300378 = Membuat Fitur Pencocokan Barang
+- HABBIL ARSY- 102022300214                = Membuat Fitur Barang Temuan 
+- RAKANANTA MUHAMMAD KARIM – 102022300077  = Membuat Fitur Tambah User
+- ZIEL FAQIH IRFIANSYAH – 102022300195     = Membuat Fitur Barang Hilang 
+- M. HAFIZ ANDREAN SIREGAR - 102022300045  =  Membuat Fitur Kategori Barang
+
+// Username Github Masing-masing Anggota 
+- MUHAMMAD KHALID AL-FAHIDI – 102022300378 = MuhammadKhalid
+- HABBIL ARSY- 102022300214                = habilarsy
+- RAKANANTA MUHAMMAD KARIM – 102022300077  = bokuraw
+- ZIEL FAQIH IRFIANSYAH – 102022300195     = zielgithub
+- M. HAFIZ ANDREAN SIREGAR - 102022300045  = hafizandrean
+
+// Penjelasan Singkat Tentang Proyek/Tugas besar.
+Tugas besar ini melibatkan pengembangan aplikasi web "Lost & Found" yang bertujuan untuk membantu proses pelaporan dan pencarian barang hilang serta barang yang ditemukan. Aplikasi ini dirancang untuk memberikan solusi terpusat, cepat, aman, dan terstruktur, memanfaatkan teknologi berbasis Laravel sebagai framework backend dan MySQL sebagai sistem manajemen database.
+
+TUJUAN:
+- Menyediakan platform yang mempermudah pengguna melaporkan barang hilang atau temuan.
+
+- Meningkatkan efisiensi pencocokan data antara barang hilang dan temuan.
+
+- Membantu membangun kesadaran masyarakat tentang pentingnya kolaborasi dalam menangani barang hilang.
+
+FITUR UTAMA:
+
+-Pencocokan Barang
+-Barang Temuan
+-Tambah User
+-Pengajuan Barang Hilang
+-Kategori
+
+
+Arsitektur Sistem:
+
+Frontend: Dibangun dengan HTML, CSS, dan Bootstrap untuk tampilan responsif.
+
+Backend: Laravel digunakan untuk logika aplikasi, autentikasi, dan manajemen data.
+
+Database: MySQL digunakan untuk menyimpan data pengguna, laporan barang, dan hasil pencocokan.
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

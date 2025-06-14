@@ -44,7 +44,7 @@ class FoundController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required',
             'location' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:category,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -60,5 +60,73 @@ class FoundController extends Controller
         Found::create($validated);
 
         return redirect()->route('found.index')->with('success', 'Data berhasil ditambahkan.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $found = Found::with('category', 'user')->findOrFail($id);
+        return view('found.show', compact('found'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $found = Found::findOrFail($id);
+        $categories = Category::all();
+        return view('found.update', compact('found', 'categories'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $found = Found::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required',
+            'location' => 'required|string|max:255',
+            'category_id' => 'required|exists:category,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($found->image) {
+                Storage::delete('image/' . $found->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('image', $imageName);
+            $validated['image'] =  $imageName;
+        }
+
+        $found->update($validated);
+
+        return redirect()->route('found.index')->with('success', 'Data berhasil diupdate.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $found = Found::findOrFail($id);
+
+        // Delete image if exists
+        if ($found->image) {
+            Storage::delete('image/' . $found->image);
+        }
+
+        $found->delete();
+
+        return redirect()->route('found.index')->with('success', 'Data berhasil dihapus.');
     }
 }

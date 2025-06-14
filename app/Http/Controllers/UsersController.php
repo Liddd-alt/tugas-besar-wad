@@ -13,7 +13,7 @@ class UsersController extends Controller
     {
         $users = User::where('id', '!=', auth()->id())->get();
         return view('users.index', compact('users'));
-        
+
     }
 
     public function create()
@@ -40,7 +40,7 @@ class UsersController extends Controller
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
     }
 
-        public function show($id)
+    public function show($id)
     {
         $user = User::findOrFail($id);
         return view('users.show', compact('user'));
@@ -49,7 +49,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        return view('users.update', compact('user'));
     }
 
     public function update(Request $request, $id)
@@ -76,7 +76,7 @@ class UsersController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
     }
-    
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);

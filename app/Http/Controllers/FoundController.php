@@ -78,7 +78,7 @@ class FoundController extends Controller
     {
         $found = Found::findOrFail($id);
         $categories = Category::all();
-        return view('found.edit', compact('found', 'categories'));
+        return view('found.update', compact('found', 'categories'));
     }
 
     /**
@@ -101,7 +101,7 @@ class FoundController extends Controller
             if ($found->image) {
                 Storage::delete('image/' . $found->image);
             }
-            
+
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $image->storeAs('image', $imageName);
@@ -119,12 +119,12 @@ class FoundController extends Controller
     public function destroy(string $id)
     {
         $found = Found::findOrFail($id);
-        
+
         // Delete image if exists
         if ($found->image) {
             Storage::delete('image/' . $found->image);
         }
-        
+
         $found->delete();
 
         return redirect()->route('found.index')->with('success', 'Data berhasil dihapus.');
